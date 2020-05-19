@@ -1,0 +1,4 @@
+{
+  "DB": "mongodb://localhost/guestbook",
+  "jwtSecret": ""
+}

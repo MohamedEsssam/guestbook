@@ -1,0 +1,4 @@
+{
+  "DB": "mongodb://localhost/guestbook",
+  "authSecret": "CP_AUTH_SECRET"
+}
