@@ -20,7 +20,7 @@ const messageSchema = new mongoose.Schema({
 messageSchema.methods.toJSON = function () {
   const obj = this.toObject();
 
-  return pick(obj, ["id", "message", "user", "replay"]);
+  return pick(obj, ["_id", "message", "user", "replay"]);
 };
 
 const Message = mongoose.model("Message", messageSchema);

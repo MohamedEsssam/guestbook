@@ -25,9 +25,32 @@ class MessageServices {
    *
    * @param {*} data
    */
-  async update(messageId) {}
+  async update(date, messageId, userId) {
+    const message = await this.messageModel.findOne({
+      _id: messageId,
+      user: userId,
+    });
+    if (!message) throw new Error("message not found");
 
-  async delete(messageId) {}
+    await message.update(pick(date, ["message"]));
+
+    return message;
+  }
+
+  async delete(messageId, userId) {
+    const message = await this.messageModel.findOne({
+      _id: messageId,
+      user: userId,
+    });
+    if (!message) throw new Error("message not found");
+
+    await message.deleteOne({
+      _id: messageId,
+      user: userId,
+    });
+
+    return message;
+  }
 }
 
 module.exports = MessageServices;
