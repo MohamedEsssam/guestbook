@@ -26,7 +26,9 @@ class UserServices {
    * @param {*} data
    */
   async register(data) {
-    const { error } = this.userSchema(data);
+    const { error } = this.userSchema(
+      pick(data, ["name", "email", "password"])
+    );
     if (error) throw new Error("Enter valid data");
 
     let user = await this.userModel.findOne({ email: data.email });

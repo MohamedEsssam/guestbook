@@ -1,6 +1,8 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { login } from "../../services/userServices";
 
 const loginSchema = Yup.object().shape({
   email: Yup.string().email("Enter valid email").required("Email is required"),
@@ -32,12 +34,14 @@ const loginForm = () => {
 };
 
 const Login = () => {
-  const handleSubmit = (values, { setSubmitting }) => {
-    //TODO call axios
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-    }, 400);
+  let history = useHistory();
+
+  const handleSubmit = async (values, { setSubmitting }) => {
+    const user = await login(values);
+
+    if (user) {
+      history.push("/");
+    }
   };
 
   return (
