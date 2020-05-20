@@ -1,5 +1,4 @@
 const pick = require("lodash/pick");
-const bcrypt = require("bcrypt");
 
 class MessageServices {
   constructor(messageModel, messageSchema) {

@@ -6,7 +6,7 @@ const MessageServicesInstance = new MessageServices(
   validateMessageSchema
 );
 
-route.post("/post", async (req, res) => {
+route.post("/", async (req, res) => {
   try {
     const message = await MessageServicesInstance.post(req.body);
     return res.status(200).send(message);
