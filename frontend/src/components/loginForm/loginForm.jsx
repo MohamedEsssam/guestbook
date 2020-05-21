@@ -40,7 +40,11 @@ const Login = () => {
     const user = await login(values);
 
     if (user) {
-      history.push("/");
+      localStorage.setItem("user", JSON.stringify(user.data));
+      history.push({
+        pathname: "/",
+        user: user,
+      });
     }
   };
 
