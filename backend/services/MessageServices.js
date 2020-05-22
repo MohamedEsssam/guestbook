@@ -6,6 +6,12 @@ class MessageServices {
     this.messageSchema = messageSchema;
   }
 
+  async getAll() {
+    const messages = await this.messageModel.find({}).populate("replay");
+
+    return messages;
+  }
+
   /**
    *
    * @param {*} data

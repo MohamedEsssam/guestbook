@@ -2,6 +2,10 @@ import http from "./httpService";
 const apiEndpointMessage = "http://localhost:8000/api/message/";
 const apiEndpointReplay = "http://localhost:8000/api/replay/";
 
+export async function getMessages() {
+  return await http.get(apiEndpointMessage);
+}
+
 export async function postMessage(data) {
   return await http.post(apiEndpointMessage, data);
 }
