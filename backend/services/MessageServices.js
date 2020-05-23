@@ -6,6 +6,12 @@ class MessageServices {
     this.messageSchema = messageSchema;
   }
 
+  async getOne(messageId) {
+    const message = await this.messageModel.findOne({ _id: messageId });
+    if (!message) throw new Error("message not found");
+    return message;
+  }
+
   async getAll() {
     const messages = await this.messageModel.find({}).populate("replay");
 
@@ -37,7 +43,7 @@ class MessageServices {
     });
     if (!message) throw new Error("message not found");
 
-    await message.update(pick(date, ["message"]));
+    await message.updateOne(pick(date, ["message"]));
 
     return message;
   }

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link, useHistory } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { postMessage, getMessages } from "../../services/messageServices";
@@ -9,8 +9,6 @@ const messageSchema = Yup.object().shape({
 });
 
 const messageForm = (props) => {
-  console.log(props.messages);
-
   return (
     props.user && (
       <div>
@@ -37,7 +35,22 @@ const messageForm = (props) => {
         </Form>
         {props.messages &&
           props.messages.map((message) => {
-            return <h2 key={message._id}>{message.message}</h2>;
+            return (
+              <div key={message._id}>
+                <Link
+                  to={{
+                    pathname: `/${message._id}`,
+                  }}
+                >
+                  {message.message}
+                </Link>
+                <button
+                  onClick={() => props.handleUpdate(message._id, props.user)}
+                >
+                  Edit
+                </button>
+              </div>
+            );
           })}
         <div>{props.touched && props.touched.message === false ? "" : ""}</div>
       </div>
@@ -46,21 +59,27 @@ const messageForm = (props) => {
 };
 
 const Home = React.memo(() => {
+  let history = useHistory();
   const location = useLocation();
   const user =
     location.user && location.user.data
       ? location.user.data
       : JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   const [isSubmit, setIsSubmit] = useState(false);
   const [messages, setMessages] = useState([]);
 
-  //let history = useHistory();
+  const handleUpdate = async (messageId, userId) => {
+    history.push({
+      pathname: `/${messageId}`,
+      message: messageId,
+      user: userId,
+    });
+  };
+
   useEffect(() => {
     async function getMessagesFromApi() {
       const messages = await getMessages();
-      console.log(messages.data);
 
       setMessages(messages.data);
     }
@@ -85,7 +104,14 @@ const Home = React.memo(() => {
         onSubmit={handleSubmit}
       >
         {(props) =>
-          messageForm({ ...props, isSubmit, setIsSubmit, user, messages })
+          messageForm({
+            ...props,
+            isSubmit,
+            setIsSubmit,
+            user,
+            messages,
+            handleUpdate,
+          })
         }
       </Formik>
     </div>

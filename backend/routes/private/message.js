@@ -6,6 +6,21 @@ const MessageServicesInstance = new MessageServices(
   validateMessageSchema
 );
 
+route.get("/:messageId", async (req, res) => {
+  try {
+    const message = await MessageServicesInstance.getOne(req.params.messageId);
+    return res.status(200).send(message);
+  } catch (err) {
+    switch (err.message) {
+      case "message not found":
+        return res.status(404).send("message not found");
+
+      default:
+        break;
+    }
+  }
+});
+
 route.get("/", async (req, res) => {
   return res.status(200).send(await MessageServicesInstance.getAll());
 });
