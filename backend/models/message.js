@@ -12,15 +12,15 @@ const messageSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  replay: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Replay" }],
+  reply: {
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Reply" }],
   },
 });
 
 messageSchema.methods.toJSON = function () {
   const obj = this.toObject();
 
-  return pick(obj, ["_id", "message", "user", "replay"]);
+  return pick(obj, ["_id", "message", "user", "reply"]);
 };
 
 const Message = mongoose.model("Message", messageSchema);

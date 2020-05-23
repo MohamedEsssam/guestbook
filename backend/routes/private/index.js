@@ -1,9 +1,9 @@
 const message = require("./message");
-const replay = require("./replay");
+const reply = require("./reply");
 const express = require("express");
 const router = express.Router();
 
 router.use("/message", message);
-router.use("/replay", replay);
+router.use("/reply", reply);
 
 module.exports = router;

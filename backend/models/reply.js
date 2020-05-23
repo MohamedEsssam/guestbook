@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const pick = require("lodash/pick");
 const Joi = require("@hapi/joi");
 
-const replaySchema = new mongoose.Schema({
+const replySchema = new mongoose.Schema({
   text: {
     type: String,
     required: true,
@@ -14,24 +14,24 @@ const replaySchema = new mongoose.Schema({
   },
 });
 
-replaySchema.methods.toJSON = function () {
+replySchema.methods.toJSON = function () {
   const obj = this.toObject();
 
   return pick(obj, ["_id", "text", "user"]);
 };
 
-const Replay = mongoose.model("Replay", replaySchema);
+const Reply = mongoose.model("Reply", replySchema);
 
-function validateReplaySchema(replay) {
-  replay.user = mongoose.Types.ObjectId(replay.user);
+function validateReplySchema(reply) {
+  reply.user = mongoose.Types.ObjectId(reply.user);
 
   const schema = Joi.object({
     text: Joi.string().required(),
     user: Joi.object().required(),
   });
 
-  return schema.validate(replay);
+  return schema.validate(reply);
 }
 
-module.exports.Replay = Replay;
-exports.validateReplaySchema = validateReplaySchema;
+module.exports.Reply = Reply;
+exports.validateReplySchema = validateReplySchema;

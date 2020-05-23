@@ -7,13 +7,15 @@ class MessageServices {
   }
 
   async getOne(messageId) {
-    const message = await this.messageModel.findOne({ _id: messageId });
+    const message = await this.messageModel
+      .findOne({ _id: messageId })
+      .populate("reply");
     if (!message) throw new Error("message not found");
     return message;
   }
 
   async getAll() {
-    const messages = await this.messageModel.find({}).populate("replay");
+    const messages = await this.messageModel.find({}).populate("reply");
 
     return messages;
   }

@@ -5,13 +5,42 @@ import * as Yup from "yup";
 import { postMessage, getMessages } from "../../services/messageServices";
 const messageSchema = Yup.object().shape({
   message: Yup.string(),
-  replay: Yup.string(),
+  reply: Yup.string(),
 });
 
 const messageForm = (props) => {
-  return (
+  return !props.user ? (
+    <div>
+      <div>
+        <Link
+          to={{
+            pathname: "/login",
+          }}
+        >
+          login
+        </Link>
+      </div>
+      <Link
+        to={{
+          pathname: "/register",
+        }}
+      >
+        register
+      </Link>
+    </div>
+  ) : (
     props.user && (
       <div>
+        <Link
+          to={{
+            pathname: "/",
+          }}
+          onClick={() => {
+            localStorage.removeItem("user");
+          }}
+        >
+          logout
+        </Link>
         <Form>
           <label>
             message:
@@ -25,11 +54,6 @@ const messageForm = (props) => {
               }}
             />
             <ErrorMessage name="message" component="div" />
-          </label>
-          <label>
-            replay:
-            <Field name="reply" as="textarea" className="form-input" />
-            <ErrorMessage name="reply" component="div" />
           </label>
           <button type="submit">Submit</button>
         </Form>
@@ -99,7 +123,7 @@ const Home = React.memo(() => {
       <h1>Home</h1>
       <Formik
         enableReinitialize
-        initialValues={{ message: "", replay: "" }}
+        initialValues={{ message: "", reply: "" }}
         validationSchema={messageSchema}
         onSubmit={handleSubmit}
       >

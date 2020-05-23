@@ -1,6 +1,6 @@
 import http from "./httpService";
 const apiEndpointMessage = "http://localhost:8000/api/message/";
-const apiEndpointReplay = "http://localhost:8000/api/replay/";
+const apiEndpointReply = "http://localhost:8000/api/reply/";
 
 export async function getMessage(id) {
   return await http.get(apiEndpointMessage + `${id}`);
@@ -22,10 +22,12 @@ export function deleteMessage(data, messageId) {
   return http.delete(apiEndpointMessage + `${messageId}`, { data });
 }
 
-export function addReplay(data) {
-  return http.post(apiEndpointReplay, data);
+export function addReply(data) {
+  console.log(data);
+
+  return http.post(apiEndpointReply, data);
 }
 
-export function deleteReplay(data) {
-  return http.post(apiEndpointReplay, data);
+export function deleteReply(data) {
+  return http.post(apiEndpointReply, data);
 }
