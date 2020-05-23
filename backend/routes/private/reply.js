@@ -22,8 +22,6 @@ route.post("/", async (req, res) => {
 
 route.delete("/:replyId", async (req, res) => {
   try {
-    console.log(req.body);
-
     const replyId = req.params.replyId;
     const message = await ReplyServicesInstance.delete(
       replyId,

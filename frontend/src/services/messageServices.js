@@ -23,8 +23,6 @@ export function deleteMessage(data, messageId) {
 }
 
 export function addReply(data) {
-  console.log(data);
-
   return http.post(apiEndpointReply, data);
 }
 

@@ -14,8 +14,6 @@ const messageSchema = Yup.object().shape({
 });
 
 const messageForm = (props) => {
-  console.log(props.user._id, props.message.user);
-
   return (
     props.user && (
       <div>
@@ -98,8 +96,6 @@ const Message = React.memo(() => {
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
-
     setReply(event.target.value);
   };
 
@@ -111,7 +107,6 @@ const Message = React.memo(() => {
     });
     setMessage(message);
     setIsSubmit(!isSubmit);
-    console.log(message);
   };
 
   const handleDelete = async () => {
