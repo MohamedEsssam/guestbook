@@ -3,6 +3,8 @@ import { useLocation, Link, useHistory } from "react-router-dom";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { postMessage, getMessages } from "../../services/messageServices";
+import { currentUser } from "../../services/userServices";
+
 const messageSchema = Yup.object().shape({
   message: Yup.string(),
   reply: Yup.string(),
@@ -36,7 +38,7 @@ const messageForm = (props) => {
             pathname: "/",
           }}
           onClick={() => {
-            localStorage.removeItem("user");
+            localStorage.removeItem("token");
           }}
         >
           logout
@@ -85,10 +87,7 @@ const messageForm = (props) => {
 const Home = React.memo(() => {
   let history = useHistory();
   const location = useLocation();
-  const user =
-    location.user && location.user.data
-      ? location.user.data
-      : JSON.parse(localStorage.getItem("user"));
+  const user = location && location.user ? location.user : currentUser();
 
   const [isSubmit, setIsSubmit] = useState(false);
   const [messages, setMessages] = useState([]);

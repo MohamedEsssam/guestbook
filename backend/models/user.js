@@ -32,7 +32,7 @@ userSchema.methods.generateAuthToken = function () {
   const user = this.toObject();
 
   const payload = {
-    ...pick(user, ["id", "name"]),
+    ...pick(user, ["_id", "name"]),
   };
   const token = jwt.sign(payload, config.get("authSecret"));
   return token;

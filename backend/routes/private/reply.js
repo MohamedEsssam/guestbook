@@ -1,11 +1,11 @@
 const route = require("express").Router();
 const { Message } = require("../../models/message");
 const { Reply, validateReplySchema } = require("../../models/reply");
-
+const auth = require("../../middleware/auth");
 const ReplyServices = require("../../services/replyServices");
 const ReplyServicesInstance = new ReplyServices(Message, Reply);
 
-route.post("/", async (req, res) => {
+route.post("/", auth, async (req, res) => {
   try {
     const message = await ReplyServicesInstance.add(req.body);
     return res.status(200).send(message);
@@ -20,7 +20,7 @@ route.post("/", async (req, res) => {
   }
 });
 
-route.delete("/:replyId", async (req, res) => {
+route.delete("/:replyId", auth, async (req, res) => {
   try {
     const replyId = req.params.replyId;
     const message = await ReplyServicesInstance.delete(

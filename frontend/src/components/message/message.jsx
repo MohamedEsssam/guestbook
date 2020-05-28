@@ -8,6 +8,8 @@ import {
   deleteMessage,
   addReply,
 } from "../../services/messageServices";
+import { currentUser } from "../../services/userServices";
+
 const messageSchema = Yup.object().shape({
   message: Yup.string(),
   reply: Yup.string(),
@@ -66,10 +68,7 @@ const Message = React.memo(() => {
   let history = useHistory();
   let prams = useParams();
   const location = useLocation();
-  const user =
-    location.user && location.user.data
-      ? location.user.data
-      : JSON.parse(localStorage.getItem("user"));
+  const user = location && location.user ? location.user : currentUser();
 
   const [isSubmit, setIsSubmit] = useState(false);
   const messageId = location.message ? location.message : prams.id;

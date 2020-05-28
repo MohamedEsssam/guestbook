@@ -38,12 +38,10 @@ const Login = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const user = await login(values);
-
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user.data));
       history.push({
         pathname: "/",
-        user: user,
+        user: user[0],
       });
     }
   };

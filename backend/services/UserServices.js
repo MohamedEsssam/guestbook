@@ -18,7 +18,9 @@ class UserServices {
     if (!(await bcrypt.compare(data.password, user.password)))
       throw new Error("invalid email or password.");
 
-    return user;
+    const token = user.generateAuthToken();
+
+    return [user, token];
   }
 
   /**

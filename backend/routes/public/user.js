@@ -5,8 +5,13 @@ const UserServicesInstance = new UserServices(User, validateUserSchema);
 
 route.post("/login", async (req, res) => {
   try {
-    const user = await UserServicesInstance.login(req.body);
-    return res.status(200).send(user);
+    const [user, token] = await UserServicesInstance.login(req.body);
+
+    return res
+      .status(200)
+      .header("x-auth-token", token)
+      .header("access-control-expose-headers", "x-auth-token")
+      .send(user);
   } catch (err) {
     switch (err.message) {
       case "invalid email or password.":

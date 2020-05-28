@@ -1,8 +1,6 @@
 import axios from "axios";
 import logger from "./logService";
 
-axios.defaults.withCredentials = true;
-
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
     error.response &&
@@ -11,15 +9,20 @@ axios.interceptors.response.use(null, (error) => {
 
   if (!expectedError) {
     logger.log(error);
-    logger.log("An unexpected error occurred");
+    logger.log("An unexpected error occurred.");
   }
 
   return Promise.reject(error);
 });
+
+function setJwt(jwt) {
+  axios.defaults.headers.common["x-auth-token"] = jwt;
+}
 
 export default {
   get: axios.get,
   post: axios.post,
   put: axios.put,
   delete: axios.delete,
+  setJwt,
 };

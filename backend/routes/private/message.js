@@ -1,4 +1,5 @@
 const route = require("express").Router();
+const auth = require("../../middleware/auth");
 const { Message, validateMessageSchema } = require("../../models/message");
 const MessageServices = require("../../services/MessageServices");
 const MessageServicesInstance = new MessageServices(
@@ -25,7 +26,7 @@ route.get("/", async (req, res) => {
   return res.status(200).send(await MessageServicesInstance.getAll());
 });
 
-route.post("/", async (req, res) => {
+route.post("/", auth, async (req, res) => {
   try {
     const message = await MessageServicesInstance.post(req.body);
     return res.status(200).send(message);
@@ -40,7 +41,7 @@ route.post("/", async (req, res) => {
   }
 });
 
-route.put("/:messageId", async (req, res) => {
+route.put("/:messageId", auth, async (req, res) => {
   try {
     const messageId = req.params.messageId;
     const message = await MessageServicesInstance.update(
@@ -60,7 +61,7 @@ route.put("/:messageId", async (req, res) => {
   }
 });
 
-route.delete("/:messageId", async (req, res) => {
+route.delete("/:messageId", auth, async (req, res) => {
   try {
     const messageId = req.params.messageId;
     const message = await MessageServicesInstance.delete(
