@@ -18,7 +18,8 @@ for linux
  for windows
  set CP_AUTH_SECRET=anykey
  set DB="mongodb://localhost/guestbook"
-
+ 
+npm i
 npm start
 ```
 
